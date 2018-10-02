@@ -4,6 +4,8 @@
     <string name="last_name">(*)Last Name</string>
     <string name="title_activity_login">Sign in</string>
     <string name = "hello">Hello</string>
+    <string name="test">This is my first test commit</string>
+
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
