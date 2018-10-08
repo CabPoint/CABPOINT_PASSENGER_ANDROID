@@ -4,16 +4,40 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import cabpoint.cabigate.apps.com.cabpoint.R;
 
 public class LoginActivity extends Activity {
+    EditText etEmail, etPassword;
 
-    private static int SPLASH_TIME_OUT = 3000;
+    Button btnSignup,btnLogin,btnForgetPass;
+    ImageView ivBack;
+    TextView txtdashboard;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        etEmail = findViewById(R.id.et_email);
+        etPassword = findViewById(R.id.et_password);
+        btnSignup = findViewById(R.id.btn_signup);
+        ivBack = findViewById(R.id.toolbar_iv_back);
+        ivBack.setVisibility(View.GONE);
+        txtdashboard = findViewById(R.id.tv_dashboard);
+
+        btnSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(LoginActivity.this, SignupActivity.class);
+                startActivity(i);
+            }
+        });
 
     }
 }

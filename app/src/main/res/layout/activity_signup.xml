@@ -1,6 +1,198 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_silver"
+    android:fitsSystemWindows="true">
+    <include
+        android:id="@+id/inc_common_header_colletion"
+        layout="@layout/common_header" />
 
-</android.support.constraint.ConstraintLayout>
+    <ScrollView
+        android:layout_below="@id/inc_common_header_colletion"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:fillViewport="true"
+        android:scrollbars="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/light_silver"
+            android:fitsSystemWindows="true">
+
+        <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@color/black"
+
+                    android:id="@+id/signup_img">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/p100"
+                        android:src="@drawable/cabpointlogo"
+                        android:layout_gravity="center_vertical"
+                     />
+                </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/signup_img"
+                android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/p20"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <EditText
+                android:id="@+id/et_firstname"
+                android:layout_width="@dimen/p0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/p20"
+                android:layout_marginRight="@dimen/p20"
+                android:singleLine="true"
+                android:hint="@string/first_name"
+                android:textSize="@dimen/ts16"
+
+                />
+            <EditText
+                android:id="@+id/et_last_name"
+                android:layout_width="@dimen/p0"
+                android:layout_marginLeft="@dimen/p20"
+                android:layout_marginRight="@dimen/p20"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:hint="@string/last_name"
+                android:singleLine="true"
+                android:textSize="@dimen/ts16"
+
+                />
+        </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/p20"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <EditText
+                        android:id="@+id/et_phonenumber"
+                        android:layout_width="@dimen/p0"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/p20"
+                        android:layout_marginRight="@dimen/p20"
+                        android:singleLine="true"
+                        android:inputType="number"
+                        android:hint="@string/phone_number"
+                        android:textSize="@dimen/ts16"
+
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/p20"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <EditText
+                        android:id="@+id/et_email"
+                        android:layout_width="@dimen/p0"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/p20"
+                        android:layout_marginRight="@dimen/p20"
+                        android:singleLine="true"
+                        android:hint="@string/email"
+                        android:textSize="@dimen/ts16"
+
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/p20"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <EditText
+                        android:id="@+id/et_password"
+                        android:layout_width="@dimen/p0"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/p20"
+                        android:layout_marginRight="@dimen/p20"
+                        android:singleLine="true"
+                        android:inputType="textPassword"
+                        android:hint="@string/password"
+                        android:textSize="@dimen/ts16"
+
+                        />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/p20"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <EditText
+                        android:id="@+id/et_promo_code"
+                        android:layout_width="@dimen/p0"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/p20"
+                        android:layout_marginRight="@dimen/p20"
+                        android:singleLine="true"
+                        android:hint="@string/promo_code"
+                        android:textSize="@dimen/ts16"
+                        android:textColorHint="@color/blue"
+
+                        />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="@dimen/p20"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:id="@+id/txt_terms"
+                        android:layout_width="@dimen/p0"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/p20"
+                        android:layout_marginRight="@dimen/p20"
+                        android:textSize="14sp"
+
+
+                        />
+                    <Button
+                        android:id="@+id/btn_signup"
+                        android:layout_width="@dimen/p0"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/blue"
+                        android:layout_marginLeft="@dimen/p20"
+                        android:layout_marginRight="@dimen/p20"
+                  android:layout_gravity="center_vertical"
+                        android:text="@string/sign_up"
+                        android:textSize="@dimen/ts16"
+                        android:textColor="@color/white"/>
+
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+
+
+
+
+
+    </ScrollView>
+</RelativeLayout>

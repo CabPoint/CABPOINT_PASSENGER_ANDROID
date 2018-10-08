@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:text="@string/app_name"
         android:textSize="@dimen/label_x__big"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/white"
         android:layout_alignParentLeft="true"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"

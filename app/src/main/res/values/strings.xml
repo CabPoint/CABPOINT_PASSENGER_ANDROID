@@ -2,7 +2,15 @@
     <string name="app_name">CabPoint</string>
     <string name="first_name">(*)First Name</string>
     <string name="last_name">(*)Last Name</string>
-    <string name="title_activity_login">Sign in</string>
+    <string name="phone_number">(*)Enter Your Phone Number</string>
+    <string name="email">(*)Enter Your Email (Required)</string>
+    <string name="password">(*)Enter Your Password (Required)</string>
+    <string name="promo_code">Add a promo code</string>
+    <string name="password_login">Password</string>
+    <string name="email_login">Email/Phone</string>
+    <string name="sign_up">Sign up</string>
+    <string name="forget_pass">Forget Password?</string>
+    <string name="login">Login</string>
     <string name = "hello">Hello</string>
     <string name="test">This is my first test commit</string>
 
