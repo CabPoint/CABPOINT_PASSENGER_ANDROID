@@ -36,6 +36,11 @@ public class SharedPreferencesHelper {
         editor.putString(key, value);
         editor.apply();
     }
+    public void setLogin(boolean islogin) {
+        SharedPreferences.Editor edit =  getEditor();
+        edit.putBoolean("islogin", islogin);
+        edit.commit();
+    }
 
     public static void putBooelan(String key, Boolean value) {
         SharedPreferences.Editor editor = getEditor();

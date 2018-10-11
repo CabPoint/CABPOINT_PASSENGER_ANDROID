@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/light_silver"
     android:fitsSystemWindows="true">
     <include
@@ -75,14 +76,23 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/p20"
                     android:orientation="horizontal"
-                    android:weightSum="1">
+                    android:weightSum="3">
+                    <com.rilixtech.CountryCodePicker
+                        android:id="@+id/ccp"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.2"
+                        android:layout_marginLeft="@dimen/p20"
+                        android:gravity="center"
+                        app:ccp_defaultNameCode="UK"
+                        />
 
                     <EditText
                         android:id="@+id/et_phonenumber"
                         android:layout_width="@dimen/p0"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="@dimen/p20"
+                        android:layout_weight="1.8"
+
                         android:layout_marginRight="@dimen/p20"
                         android:singleLine="true"
                         android:inputType="number"

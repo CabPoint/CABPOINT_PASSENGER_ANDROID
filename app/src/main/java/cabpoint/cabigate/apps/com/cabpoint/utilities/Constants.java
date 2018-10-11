@@ -1,4 +1,16 @@
 package cabpoint.cabigate.apps.com.cabpoint.utilities;
 
 public class Constants {
+    public static final String COMPANYID = "2100";
+    public static final String USERID = "userid";
+    public static final String GET = "GET";
+    public static final String CONTENT_TYPE = "Content-Type";
+    public static final String CONTENT_TYPE_FORM_URL_ENCODED = "application/x-www-form-urlencoded";
+    public static final String POST = "POST";
+    public static String PHONE_NUMBER ="";
+
+
+
+    public static final String CABPOINT_BASE_URL="http://paxapi.cabigate.com/index.php";
+    public static final String CABPOINT_SIGNUP=CABPOINT_BASE_URL+"/signup";
 }

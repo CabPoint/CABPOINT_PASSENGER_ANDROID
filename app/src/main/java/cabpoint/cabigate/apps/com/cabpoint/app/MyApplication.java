@@ -6,8 +6,8 @@ import android.graphics.Typeface;
 
 public class MyApplication extends Application {
     public static Context context;
-    public static final String CABPOINT_BASE_URL="http://paxapi.cabigate.com/index.php";
-    public static final String SIGN_UP=CABPOINT_BASE_URL+"/signup";
+
+
     @Override
     public void onCreate() {
         super.onCreate();
