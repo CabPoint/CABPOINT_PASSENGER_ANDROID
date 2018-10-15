@@ -53,11 +53,10 @@
                         android:layout_width="@dimen/p0"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:gravity="center"
                         android:layout_marginLeft="@dimen/p20"
                         android:layout_marginRight="@dimen/p20"
                         android:text="@string/phonecode_desc1"
-                        android:textSize="@dimen/ts16"
+                        android:textSize="@dimen/ts18"
 
 
                         />
@@ -68,25 +67,36 @@
                     android:layout_height="100dp"
                     android:layout_marginTop="@dimen/p20"
                     android:orientation="horizontal"
-                    android:weightSum="2">
+                    android:layout_marginLeft="@dimen/p20"
+                    android:layout_marginRight="@dimen/p20"
+                    android:weightSum="4">
                     <com.alimuzaffar.lib.pin.PinEntryEditText
                         android:id="@+id/sendCodeValue"
-                        android:layout_width="match_parent"
+                        android:layout_width="@dimen/p0"
                         android:layout_height="wrap_content"
                         android:digits="1234567890"
+                        android:layout_weight="3"
+                       android:layout_gravity="center"
                         android:inputType="number"
                         android:cursorVisible="false"
-                        android:maxLength="6"
+                        android:maxLength="5"
                         android:textIsSelectable="false"
                         android:textSize="20sp"
                         app:pinCharacterMask="*"
-                        android:layout_marginLeft="60dp"
+
                         android:layout_marginRight="40dp"
                         app:pinTextBottomPadding="5dp"
                         app:pinLineStrokeSelected="4dp"
                         android:layout_centerInParent="true"
                         app:pinLineStroke="1dp"
                         />
+                    <ImageView
+                        android:layout_width="@dimen/p0"
+                        android:layout_height="@dimen/p40"
+                        android:layout_weight="1"
+                        android:id="@+id/forward"
+                        android:layout_gravity="center"
+                        android:src="@drawable/forward_icon"/>
 
 
                 </LinearLayout>

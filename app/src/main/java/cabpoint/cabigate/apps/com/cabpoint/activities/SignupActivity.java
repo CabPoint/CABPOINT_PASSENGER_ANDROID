@@ -17,12 +17,17 @@ import android.widget.TextView;
 import java.util.HashMap;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.rilixtech.Country;
 import com.rilixtech.CountryCodePicker;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import cabpoint.cabigate.apps.com.cabpoint.R;
 import cabpoint.cabigate.apps.com.cabpoint.database.SharedPreferencesHelper;
 import cabpoint.cabigate.apps.com.cabpoint.models.signupRequest.SignupModel;
+import cabpoint.cabigate.apps.com.cabpoint.models.signupResponse.SignupResponse;
 import cabpoint.cabigate.apps.com.cabpoint.utilities.Constants;
 import cabpoint.cabigate.apps.com.cabpoint.utilities.Helpers;
 import cabpoint.cabigate.apps.com.cabpoint.utilities.HttpHandler;
@@ -36,7 +41,7 @@ public class SignupActivity extends Activity {
     CountryCodePicker ccp;
 
 
-    private SharedPreferencesHelper sharedPreferencesHelper;
+   public  SharedPreferencesHelper sharedPreferencesHelper;
 
 
     @Override
@@ -101,7 +106,6 @@ public class SignupActivity extends Activity {
             pDialog = new ProgressDialog(SignupActivity.this);
             pDialog.setMessage(getResources().getString(R.string.loading));
             pDialog.setIndeterminate(false);
-
             pDialog.show();
             pDialog.setCancelable(false);
         }
@@ -126,12 +130,46 @@ public class SignupActivity extends Activity {
                 Log.e("Signup Url", Constants.CABPOINT_SIGNUP);
                 Log.e("body", String.valueOf(bodyParams));
                 Log.e("Response", response);
+                SignupResponse signup = new Gson().fromJson(response, SignupResponse.class);
+                if(signup.getStatus().equals("1"))
+                {
+                    if(signup.getResponse()!=null)
+                    {
+                        sharedPreferencesHelper.setString(Constants.TOKEN,signup.getResponse().getToken() == null? null :signup.getResponse().getToken() );
+                        sharedPreferencesHelper.setString(Constants.KEMATCH,signup.getResponse().getKeymatch() == null? null :signup.getResponse().getKeymatch() );
+                        sharedPreferencesHelper.setString(Constants.USERID,signup.getResponse().getUserid() == null? null :signup.getResponse().getUserid() );
+                        sharedPreferencesHelper.setString(Constants.FNAME,signup.getResponse().getFname() == null? null :signup.getResponse().getFname() );
+                        sharedPreferencesHelper.setString(Constants.OPT,signup.getResponse().getOPT() == null? null :signup.getResponse().getOPT());
+                        Intent phonecode = new Intent(SignupActivity.this,PhoneCodeActivity.class);
+                        startActivity(phonecode);
+                    }
+                }
+                else
+                {
 
-                return response.toString();
+                    JSONObject json = null;
+                    try {
+                        json = new JSONObject(response);
+                        String errorMessage = json.getString("error_msg");
+                        String status = json.getString("status");
+                        if(status.equals("0")) {
+                            Helpers.displayMessage(SignupActivity.this, true, errorMessage);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+
+                }
+
+
+              //  return response.toString();
             } catch (Exception exception) {
                 if (response.equals("")) {
+                    Helpers.displayMessage(SignupActivity.this, true, exception.getMessage());
                     //showResponseDialog( mContext.getResources().getString(R.string.alert),exception.getMessage());
-                    pDialog.dismiss();
+                    //pDialog.dismiss();
                 } else {
                     Helpers.displayMessage(SignupActivity.this, true, exception.getMessage());
                 }
