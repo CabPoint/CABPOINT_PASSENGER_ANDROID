@@ -84,7 +84,7 @@
                         android:layout_weight="1.2"
                         android:layout_marginLeft="@dimen/p20"
                         android:gravity="center"
-                        app:ccp_defaultNameCode="UK"
+                        app:ccp_defaultCode="81"
                         />
 
                     <EditText
@@ -143,46 +143,13 @@
                         />
 
                 </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/p20"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
 
-                    <EditText
-                        android:id="@+id/et_promo_code"
-                        android:layout_width="@dimen/p0"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="@dimen/p20"
-                        android:layout_marginRight="@dimen/p20"
-                        android:singleLine="true"
-                        android:hint="@string/promo_code"
-                        android:textSize="@dimen/ts16"
-                        android:textColorHint="@color/blue"
-
-                        />
-
-                </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:layout_marginTop="@dimen/p20"
                     android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <TextView
-                        android:id="@+id/txt_terms"
-                        android:layout_width="@dimen/p0"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="@dimen/p20"
-                        android:layout_marginRight="@dimen/p20"
-                        android:textSize="14sp"
-
-
-                        />
+                    android:weightSum="1">
                     <Button
                         android:id="@+id/btn_signup"
                         android:layout_width="@dimen/p0"

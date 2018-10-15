@@ -45,6 +45,7 @@ public class SignupActivity extends Activity {
         setContentView(R.layout.activity_signup);
         Initialize();
         sharedPreferencesHelper = new SharedPreferencesHelper(this);
+        countryCodeAndroid = ccp.getSelectedCountryCode();
 
     }
 
@@ -55,7 +56,7 @@ public class SignupActivity extends Activity {
         etEmail = findViewById(R.id.et_email);
         etPassword = findViewById(R.id.et_password);
         ccp = (CountryCodePicker) findViewById(R.id.ccp);
-        txtterms = findViewById(R.id.txt_terms);
+       // txtterms = findViewById(R.id.txt_terms);
         btnSignup = findViewById(R.id.btn_signup);
         ivBack = findViewById(R.id.toolbar_iv_back);
         //ccp.setDefaultCountryUsingPhoneCode(44);
@@ -68,7 +69,7 @@ public class SignupActivity extends Activity {
         txtdashboard = findViewById(R.id.tv_dashboard);
         txtdashboard.setVisibility(View.VISIBLE);
         txtdashboard.setText("Sign Up");
-        Helpers.customTextView(txtterms);
+       // Helpers.customTextView(txtterms);
 
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override

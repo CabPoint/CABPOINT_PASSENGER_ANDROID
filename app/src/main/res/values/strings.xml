@@ -13,10 +13,9 @@
     <string name="sign_up">Sign up</string>
     <string name="forget_pass">Forget Password?</string>
     <string name="login">Login</string>
+    <string name="phonecode_desc1">We have called you on the number\ngiven.Please check your call log.\n\nTo Complete your phone number verification\nplease enter last 5 digits of the number.</string>
     <string name = "hello">Hello</string>
     <string name="test">This is my first test commit</string>
-
-
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
