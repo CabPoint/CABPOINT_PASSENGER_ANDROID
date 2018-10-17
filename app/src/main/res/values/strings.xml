@@ -16,11 +16,24 @@
     <string name="phonecode_desc1">We have called you on the number\ngiven.Please check your call log.\n\nTo Complete your phone number verification\nplease enter last 5 digits of the number.</string>
     <string name = "hello">Hello</string>
     <string name="test">This is my first test commit</string>
+    <string name="forget_password">Forget Password</string>
+    <string name="enter_email">Please Enter Email</string>
+    <string name="recever_email">To recover your password please provide\nthe email address you specified during registration.</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
+    <string name="personal_ride">Your Personal Ride</string>
+    <string name="payment">Payment</string>
+    <string name="history">History</string>
+    <string name="free_ride">Free Rides</string>
+    <string name="promo">Promotions</string>
+    <string name="setting">Settings</string>
+    <string name="contact_us">Contact us</string>
+    <string name="logout">Logout</string>
+    <string name="drawer_open">Drawer Open</string>
+    <string name="drawer_close">Drawer Close</string>
 
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>

@@ -19,4 +19,6 @@ public class Constants {
     public static final String CABPOINT_BASE_URL="http://paxapi.cabigate.com/index.php";
     public static final String CABPOINT_SIGNUP=CABPOINT_BASE_URL+"/signup";
     public static final String CABPOINT_VERIFY_PHONE=CABPOINT_BASE_URL+"/verifyphone";
+    public static final String CABPOINT_LOGIN=CABPOINT_BASE_URL+"/signin";
+    public static final String CABPOINT_FORGET_PASSWORD=CABPOINT_BASE_URL+"/forgotpassword";
 }
