@@ -1,11 +1,13 @@
 package cabpoint.cabigate.apps.com.cabpoint.activities;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -18,18 +20,32 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.DexterError;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.PermissionRequestErrorListener;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+
+import java.util.List;
 
 import cabpoint.cabigate.apps.com.cabpoint.R;
+import cabpoint.cabigate.apps.com.cabpoint.fragments.Home;
+import cabpoint.cabigate.apps.com.cabpoint.listeners.GPSTracker;
 
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private FragmentManager fragmentManager;
     NavigationView navigationView;
-    ImageView ivBack,ivMenu;
+    ImageView ivBack, ivMenu;
     Toolbar toolbar;
     MenuItem searchMenuItem;
+    private FragmentManager fragment;
+    private GPSTracker gps;
     Uri uri;
     Context context;
     Intent intent;
@@ -45,8 +61,14 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ivBack = findViewById(R.id.toolbar_iv_back);
         ivMenu = findViewById(R.id.iv_drawer);
-ivBack.setVisibility(View.GONE);
-ivMenu.setVisibility(View.VISIBLE);
+        ivBack.setVisibility(View.GONE);
+        ivMenu.setVisibility(View.VISIBLE);
+        checkLocationPermission();
+
+
+
+
+
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -54,10 +76,8 @@ ivMenu.setVisibility(View.VISIBLE);
                 drawerLayout.closeDrawers();
                 switch (item.getItemId()) {
                     case R.id.menu_go_ride:
-
                         return true;
                     case R.id.menu_go_payment:
-
                         return true;
                     case R.id.menu_go_history:
                         return true;
@@ -66,17 +86,11 @@ ivMenu.setVisibility(View.VISIBLE);
                     case R.id.menu_go_promotion:
                         return true;
                     case R.id.menu_go_setting:
-
                         return true;
-                   case R.id.menu_go_contact_us:
-
+                    case R.id.menu_go_contact_us:
                         return true;
                     case R.id.menu_go_logout:
-
-
-
                         return true;
-
 
 
                 }
@@ -105,10 +119,93 @@ ivMenu.setVisibility(View.VISIBLE);
         actionBarDrawerToggle.syncState();
 
     }
+    private void showSettingsDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Need Permissions");
+        builder.setMessage("This app needs permission to use this feature. You can grant them in app settings.");
+        builder.setPositiveButton("GOTO SETTINGS", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                openSettings();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
 
-    private void exitdialog()
-    {
-        AlertDialog.Builder   alertDialogBuilder;
+    }
+    // navigating user to app settings
+    private void openSettings() {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", this.getPackageName(), null);
+        intent.setData(uri);
+        startActivityForResult(intent, 101);
+    }
+    private boolean checkGps() {
+        gps = new GPSTracker(this);
+        // check if GPS enabled
+        if (gps.canGetLocation()) {
+
+            return true;
+        } else {
+            gps.showSettingsAlert();
+        }
+        return false;
+    }
+    public void checkLocationPermission() {
+        Dexter.withActivity(this)
+                .withPermissions(
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.INTERNET)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        // check if all permissions are granted
+                        if (report.areAllPermissionsGranted()) {
+
+
+                            if (checkGps())
+                            {
+                                android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+                                android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                fragmentTransaction.replace(R.id.Container, new Home());
+                                fragmentTransaction.addToBackStack(null);
+                                fragmentTransaction.commit();
+                            }
+                            //Toast.makeText(getActivity().getApplicationContext(), "All permissions are granted!", Toast.LENGTH_SHORT).show();
+                        }
+
+                        // check for permanent denial of any permission
+                        if (report.isAnyPermissionPermanentlyDenied()) {
+                            // show alert dialog navigating to Settings
+                            showSettingsDialog();
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).
+                withErrorListener(new PermissionRequestErrorListener() {
+                    @Override
+                    public void onError(DexterError error) {
+                        Toast.makeText(getApplicationContext(), "Error occurred! ", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .onSameThread()
+                .check();
+
+    }
+
+    private void exitdialog() {
+        AlertDialog.Builder alertDialogBuilder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             alertDialogBuilder = new AlertDialog.Builder(MainActivity.this, android.R.style.Theme_Material_Light_Dialog_Alert);
         } else {
@@ -124,33 +221,30 @@ ivMenu.setVisibility(View.VISIBLE);
                 .setCancelable(false)
 
                 .setMessage("Are you sure you want to exit?")
-                .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int id) {
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
                         // if this button is clicked, close
                         // current activity
-                       System.exit(0);
+                        System.exit(0);
                         finish();
                     }
                 })
-                .setNegativeButton("No",new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int id) {
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
                         // if this button is clicked, just close
                         // the dialog box and do nothing
                         dialog.cancel();
                     }
                 })
                 .setNeutralButton("Rate Us",
-                        new DialogInterface.OnClickListener()
-                        {
-                            public void onClick(DialogInterface dialog, int id)
-                            {
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
                                 uri = Uri.parse("https://play.google.com/store/apps/details?id=sant.singh.ji.maskeen"); // missing 'http://' will cause crashed
                                 intent = new Intent(Intent.ACTION_VIEW, uri);
                                 startActivity(intent);
                                 //dialog.cancel();
                             }
                         });
-
 
 
         // create alert dialog
@@ -165,7 +259,7 @@ ivMenu.setVisibility(View.VISIBLE);
         View header = navigationView.getHeaderView(0);
         TextView txtHeaderName = (TextView) header.findViewById(R.id.header_name);
         TextView txtHeaderEmail = (TextView) header.findViewById(R.id.header_email);
-      ImageView imgProfile = (ImageView) header.findViewById(R.id.header_image);
+        ImageView imgProfile = (ImageView) header.findViewById(R.id.header_image);
 
     }
 
@@ -181,6 +275,7 @@ ivMenu.setVisibility(View.VISIBLE);
         super.onResume();
 
     }
+
     @Override
     public void onBackPressed() {
         exitdialog();

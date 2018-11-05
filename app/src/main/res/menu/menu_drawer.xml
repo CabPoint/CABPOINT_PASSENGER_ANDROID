@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item
+        android:id="@+id/menu_go_freerides"
+        android:checkable="false"
+
+        android:title="@string/free_ride" />
     <group android:checkableBehavior="single">
 
         <item
@@ -12,17 +18,13 @@
             android:id="@+id/menu_go_payment"
             android:checked="false"
 
+
             android:title="@string/payment" />
         <item
             android:id="@+id/menu_go_history"
             android:checkable="false"
 
             android:title="@string/history" />
-        <item
-            android:id="@+id/menu_go_freerides"
-            android:checkable="false"
-
-            android:title="@string/free_ride" />
         <item
             android:id="@+id/menu_go_promotion"
             android:checkable="false"

@@ -13,15 +13,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.alimuzaffar.lib.pin.PinEntryEditText;
 import com.google.gson.Gson;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.HashMap;
-
 import cabpoint.cabigate.apps.com.cabpoint.R;
 import cabpoint.cabigate.apps.com.cabpoint.database.SharedPreferencesHelper;
 import cabpoint.cabigate.apps.com.cabpoint.models.phoencodeoutput.PhoneCodeInput;
@@ -33,9 +29,6 @@ import cabpoint.cabigate.apps.com.cabpoint.utilities.Helpers;
 import cabpoint.cabigate.apps.com.cabpoint.utilities.HttpHandler;
 
 public class PhoneCodeActivity extends Activity {
-
-
-
     ImageView ivBack,img_forward;
     TextView txtdashboard;
     SharedPreferencesHelper sharedPreferencesHelper;

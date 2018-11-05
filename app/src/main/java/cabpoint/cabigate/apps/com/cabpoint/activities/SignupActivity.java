@@ -34,7 +34,7 @@ import cabpoint.cabigate.apps.com.cabpoint.utilities.HttpHandler;
 
 public class SignupActivity extends Activity {
     EditText etFirstNmae, etLastName, etPhonenumber, etEmail, etPassword;
-    TextView txtterms, txtdashboard;
+    TextView  txtdashboard;
     Button btnSignup;
     ImageView ivBack;
     String countryCodeAndroid = "";

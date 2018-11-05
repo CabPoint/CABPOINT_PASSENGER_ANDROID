@@ -8,6 +8,8 @@
     <string name="promo_code">Add a promo code</string>
     <string name="password_login">Password</string>
     <string name="email_login">Email/Phone</string>
+    <string name="pickup_location">Pickup Location</string>
+    <string name="drop_location">Drop Location</string>
     <string name="required">Required</string>
     <string name="loading">Loading</string>
     <string name="sign_up">Sign up</string>

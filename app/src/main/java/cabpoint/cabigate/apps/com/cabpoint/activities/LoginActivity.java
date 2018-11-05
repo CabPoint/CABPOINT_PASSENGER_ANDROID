@@ -65,8 +65,7 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View view) {
                 new LoginTask().execute();
-                Intent main =new Intent(LoginActivity.this,MainActivity.class);
-                startActivity(main);
+
             }
         });
         btnForgetPass.setOnClickListener(new View.OnClickListener() {
@@ -115,6 +114,8 @@ showResponseDialog();
                     {
 
                             Helpers.displayMessage(LoginActivity.this, true, "Successfully Login");
+                        Intent main =new Intent(LoginActivity.this,MainActivity.class);
+                        startActivity(main);
 
 
                     }
@@ -268,6 +269,7 @@ showResponseDialog();
     private ForgetPasswordModel forgetPasswordrequestBody(String email) {
         ForgetPasswordModel headerRequest = new ForgetPasswordModel ();
        headerRequest.setEmail(email);
+       headerRequest.setCompanyid(Constants.COMPANYID);
         return headerRequest;
     }
     private void showResponseDialog() {
