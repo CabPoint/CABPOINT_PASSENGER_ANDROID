@@ -12,6 +12,8 @@ public class Constants {
     public static final String CONTENT_TYPE_FORM_URL_ENCODED = "application/x-www-form-urlencoded";
     public static final String POST = "POST";
     public static String PHONE_NUMBER ="";
+    public static double loclat;
+    public static double loclng;
 
 
 

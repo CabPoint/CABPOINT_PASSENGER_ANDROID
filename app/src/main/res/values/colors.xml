@@ -10,6 +10,7 @@
 
     <!-- selected tab text -->
     <color name="selected_tabtext">#bb000000</color>
+    <color name="edit_text_hint">#8A8A8F</color>
 
     <!-- non selected tab text -->
     <color name="unselected_tabtext">#77000000</color>

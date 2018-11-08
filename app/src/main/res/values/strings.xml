@@ -10,6 +10,9 @@
     <string name="email_login">Email/Phone</string>
     <string name="pickup_location">Pickup Location</string>
     <string name="drop_location">Drop Location</string>
+    <string name="title_home">Home</string>
+    <string name="title_work">Work</string>
+    <string name="where_to">Where to</string>
     <string name="required">Required</string>
     <string name="loading">Loading</string>
     <string name="sign_up">Sign up</string>
@@ -17,9 +20,13 @@
     <string name="login">Login</string>
     <string name="phonecode_desc1">We have called you on the number\ngiven.Please check your call log.\n\nTo Complete your phone number verification\nplease enter last 5 digits of the number.</string>
     <string name = "hello">Hello</string>
+    <string name="titleHome">Home</string>
     <string name="test">This is my first test commit</string>
+    <string name="search_location">Search Location</string>
     <string name="forget_password">Forget Password</string>
     <string name="enter_email">Please Enter Email</string>
+    <string name="tap_add_lbl">Tap to Add</string>
+    <string name="work_lbl">Work</string>
     <string name="recever_email">To recover your password please provide\nthe email address you specified during registration.</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

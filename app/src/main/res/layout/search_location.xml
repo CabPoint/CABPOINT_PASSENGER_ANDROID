@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_silver"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+          >
+
+            <Button
+                android:id="@+id/backbutton2"
+                style="@style/app_left_right_margin"
+                android:layout_width="39dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:scaleType="center"
+                android:background="@drawable/ic_arrow_back_black_24dp" />
+
+
+
+            <EditText
+                android:id="@+id/customLocation_autocomplteTextView"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/backbutton2"
+                android:hint="@string/search_location"
+                android:paddingRight="25dp"
+                android:maxLines="1"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/edit_text_hint" >
+
+            </EditText>
+            <ImageView
+                android:id="@+id/closebutton2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="10dp"
+                android:layout_alignRight="@id/customLocation_autocomplteTextView"
+                android:src="@mipmap/clos"/>
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <ListView
+        android:layout_marginTop="5dp"
+        android:visibility="gone"
+        android:id="@+id/location_listView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </ListView>
+
+</LinearLayout>

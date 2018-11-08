@@ -11,6 +11,18 @@
         android:layout_height="match_parent"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         />
+    <TextView
+        android:id="@+id/where_to"
+        android:layout_marginTop="40dp"
+        android:paddingLeft="10dp"
+        android:textColor="@color/black"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/edittext_bg"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/where_to"  />
     <ImageView
         android:id="@+id/imgMyLocation"
         android:layout_width="30dp"

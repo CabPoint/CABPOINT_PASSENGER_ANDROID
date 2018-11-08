@@ -24,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -52,18 +53,21 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import java.util.List;
 import cabpoint.cabigate.apps.com.cabpoint.R;
 import cabpoint.cabigate.apps.com.cabpoint.listeners.GPSTracker;
+import cabpoint.cabigate.apps.com.cabpoint.utilities.Constants;
+
+import static cabpoint.cabigate.apps.com.cabpoint.utilities.Constants.loclat;
 
 public class Home extends android.support.v4.app.Fragment implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         com.google.android.gms.location.LocationListener {
-
-    GoogleApiClient mGoogleApiClient;
+ GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
     Marker mCurrLocationMarker;
+    private TextView whereTo;
     SupportMapFragment fm;
     LocationRequest mLocationRequest;
-    private double currentLat, currentLng;
+    public static double currentLat, currentLng;
     private GoogleMap mGoogleMap;
     ImageView   imgMyLocation;
 
@@ -75,6 +79,7 @@ public class Home extends android.support.v4.app.Fragment implements OnMapReadyC
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         fm = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.home_map);
         imgMyLocation = (ImageView) rootView.findViewById(R.id.imgMyLocation);
+        whereTo = (TextView) rootView.findViewById(R.id.where_to);
         imgMyLocation.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -83,6 +88,18 @@ public class Home extends android.support.v4.app.Fragment implements OnMapReadyC
 
             }
         });
+        whereTo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                WhereTo whereto = new WhereTo();
+                android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
+                android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.Container, whereto);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+
         //fm.getMapAsync(this);
         if(fm == null)
         {
@@ -119,8 +136,6 @@ public class Home extends android.support.v4.app.Fragment implements OnMapReadyC
         buildGoogleApiClient();
         mGoogleMap.setMyLocationEnabled(true);
     }
-    private void initView() {
-    }
 
 
     protected synchronized void buildGoogleApiClient() {
@@ -137,6 +152,7 @@ public class Home extends android.support.v4.app.Fragment implements OnMapReadyC
         mLastLocation = location;
         currentLat = location.getLatitude();
         currentLng = location.getLongitude();
+
         if (mCurrLocationMarker != null) {
             mCurrLocationMarker.remove();
         }

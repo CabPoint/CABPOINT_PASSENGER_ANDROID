@@ -11,6 +11,7 @@ public class SharedPreferencesHelper {
         sharedPreferences = context.getSharedPreferences(SharedPreferencesHelper.PREFS_NAME, Context.MODE_PRIVATE);
     }
 
+
     public SharedPreferences getInstance() {
         return sharedPreferences;
     }

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--route-->
+
+    <item name="route_detail" type="id"/>
+    <item name="add_route" type="id"/>
+    <item name="related_route" type="id"/>
+    <item name="select_week_day" type="id"/>
+    <item name="set_route_time" type="id"/>
+    <item name="route_info" type="id"/>
+
+    <!--vehicle-->
+
+    <item name="vehicle_detail" type="id"/>
+    <item name="add_vehicle" type="id"/>
+
+    <!--evetns-->
+    <item name="events_detail_view" type="id"/>
+    <item name="evetns_map_view" type="id"/>
+
+    <!--profile-->
+
+    <item name="profileDetail" type="id"/>
+    <item name="profile_add_info" type="id"/>
+    <item name="personal_info" type="id"/>
+    <item name="profile_add_vehicle" type="id"/>
+    <item name="phone_code" type="id"/>
+
+    <!--faqs-->
+    <item name="faq_category" type="id"/>
+    <item name="faq_category_detail" type="id"/>
+    <item name="faq_category_detail_answer" type="id"/>
+
+    <!--notifications-->
+    <item name="notifi_list" type="id"/>
+    <item name="notif_settings" type="id"/>
+
+    <!--trip-->
+    <item name="tripHistory" type="id"/>
+    <item name="tripHistoryDetail" type="id"/>
+    <item name="tripReport" type="id"/>
+    <item name="tripVehicleAddInfo" type="id"/>
+
+    <!--accounts-->
+    <item name="accountView" type="id"/>
+    <item name="manageaccountView" type="id"/>
+    <item name="transactionHistoryView" type="id"/>
+    <item name="bonus_View" type="id"/>
+    <item name="pay_Account" type="id"/>
+
+    <!--whereto-->
+    <item name="whereToView" type="id"/>
+    <item name="searchLocationView" type="id"/>
+
+</resources>

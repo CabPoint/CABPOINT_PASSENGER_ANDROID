@@ -10,6 +10,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -26,6 +28,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,6 +47,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -53,11 +57,16 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
 import cabpoint.cabigate.apps.com.cabpoint.R;
+import cabpoint.cabigate.apps.com.cabpoint.fragments.Home;
+
+import static cabpoint.cabigate.apps.com.cabpoint.utilities.Constants.loclat;
+import static cabpoint.cabigate.apps.com.cabpoint.utilities.Constants.loclng;
 
 /**
  * Created by Muhammad Umair on 02-03-2018.
@@ -276,6 +285,14 @@ public class Helpers {
             }
         });
     }
+    public static void hideKeyboard(Activity activity) {
+        try {
+            InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.RESULT_UNCHANGED_HIDDEN);
+
+        } catch (Exception e) {
+        }
+    }
 
     public static void highlightMandatoryFieldsOnLoad(final Context context,final EditText editText)
     {
@@ -283,6 +300,21 @@ public class Helpers {
         {
             editText.setError(context.getResources().getString(R.string.required));
         }
+    }
+
+    public static String getCountryCodeFromGps(Context context){
+        String CountryID = "";
+        List<Address> addresses=null;
+        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+        try {
+            addresses = geocoder.getFromLocation(Home.currentLat, Home.currentLng, 1);
+            CountryID = addresses.get(0).getCountryCode();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return CountryID;
     }
 
     public static void unHighlightMandatoryField(EditText editText)
