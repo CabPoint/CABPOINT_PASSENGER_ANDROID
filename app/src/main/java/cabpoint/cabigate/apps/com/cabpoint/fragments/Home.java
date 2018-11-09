@@ -50,7 +50,9 @@ import com.karumi.dexter.listener.DexterError;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+
 import java.util.List;
+
 import cabpoint.cabigate.apps.com.cabpoint.R;
 import cabpoint.cabigate.apps.com.cabpoint.listeners.GPSTracker;
 import cabpoint.cabigate.apps.com.cabpoint.utilities.Constants;
@@ -61,7 +63,7 @@ public class Home extends android.support.v4.app.Fragment implements OnMapReadyC
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         com.google.android.gms.location.LocationListener {
- GoogleApiClient mGoogleApiClient;
+    GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
     Marker mCurrLocationMarker;
     private TextView whereTo;
@@ -69,7 +71,7 @@ public class Home extends android.support.v4.app.Fragment implements OnMapReadyC
     LocationRequest mLocationRequest;
     public static double currentLat, currentLng;
     private GoogleMap mGoogleMap;
-    ImageView   imgMyLocation;
+    ImageView imgMyLocation;
 
 
     @Nullable
@@ -101,21 +103,21 @@ public class Home extends android.support.v4.app.Fragment implements OnMapReadyC
         });
 
         //fm.getMapAsync(this);
-        if(fm == null)
-        {
+        if (fm == null) {
             android.support.v4.app.FragmentManager fg = getFragmentManager();
             FragmentTransaction ft = fg.beginTransaction();
             fm = SupportMapFragment.newInstance();
-            ft.replace(R.id.home_map,fm).commit();
+            ft.replace(R.id.home_map, fm).commit();
         }
         fm.getMapAsync(this);
 
         //checkLocationPermission();
         return rootView;
     }
+
     private void getMyLocation() {
         LatLng latLng = new LatLng(currentLat, currentLng);
-        if(currentLat>0 && currentLng>0) {
+        if (currentLat > 0 && currentLng > 0) {
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 11);
             mGoogleMap.animateCamera(cameraUpdate);
         }
@@ -152,7 +154,6 @@ public class Home extends android.support.v4.app.Fragment implements OnMapReadyC
         mLastLocation = location;
         currentLat = location.getLatitude();
         currentLng = location.getLongitude();
-
         if (mCurrLocationMarker != null) {
             mCurrLocationMarker.remove();
         }
@@ -165,7 +166,6 @@ public class Home extends android.support.v4.app.Fragment implements OnMapReadyC
     }
 
 
-
     @SuppressLint("MissingPermission")
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -176,7 +176,7 @@ public class Home extends android.support.v4.app.Fragment implements OnMapReadyC
 //        if (ContextCompat.checkSelfPermission(getActivity(),
 //                Manifest.permission.ACCESS_FINE_LOCATION)
 //                == PackageManager.PERMISSION_GRANTED) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, (com.google.android.gms.location.LocationListener) this);
+        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, (com.google.android.gms.location.LocationListener) this);
 //        }
     }
 
@@ -189,8 +189,8 @@ public class Home extends android.support.v4.app.Fragment implements OnMapReadyC
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
-    private void setMarker(Location location)
-    {
+
+    private void setMarker(Location location) {
         //Place current location marker
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         MarkerOptions markerOptions = new MarkerOptions();
@@ -203,9 +203,6 @@ public class Home extends android.support.v4.app.Fragment implements OnMapReadyC
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(11));
     }
-
-
-
 
 
 }

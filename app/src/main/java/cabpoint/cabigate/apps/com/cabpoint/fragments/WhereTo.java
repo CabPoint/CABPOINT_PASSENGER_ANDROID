@@ -24,6 +24,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ViewFlipper;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -49,7 +51,7 @@ import cabpoint.cabigate.apps.com.cabpoint.listeners.GPSTracker;
 import cabpoint.cabigate.apps.com.cabpoint.models.AddressDao;
 import cabpoint.cabigate.apps.com.cabpoint.utilities.Helpers;
 
-
+import static cabpoint.cabigate.apps.com.cabpoint.activities.MainActivity.mGoogleApiClient;
 
 
 /**
@@ -106,7 +108,7 @@ public class WhereTo extends android.support.v4.app.Fragment {
     public static String userHomeAddress = "userHomeAddress";
     public static String userWorkPlaceid = "userWorkId";
     public static String userHomePlaceid = "userHomeId";
-    GoogleApiClient mGoogleApiClient;
+
     View rootView;
 
 
@@ -242,13 +244,13 @@ public class WhereTo extends android.support.v4.app.Fragment {
         gps = new GPSTracker(getActivity());
         // check if GPS enabled
         if (gps.canGetLocation()) {
-            currentLat = gps.getLatitude();
-            currentLng = gps.getLongitude();
+//            currentLat = gps.getLatitude();
+//            currentLng = gps.getLongitude();
             Geocoder geocoder;
             List<Address> addresses;
             geocoder = new Geocoder(getActivity(), Locale.getDefault());
             try {
-                addresses = geocoder.getFromLocation(currentLat, currentLng, 1);
+                addresses = geocoder.getFromLocation(Home.currentLat, Home.currentLng, 1);
                 String street = addresses.get(0).getAddressLine(0);
                 Bydefaultcurrent = street;
                 //currentLocation.setText(street);
@@ -458,8 +460,8 @@ public class WhereTo extends android.support.v4.app.Fragment {
     private void searchPlace(String query) {
         //double radiusDegrees = 1.0;
         //LatLng center = new LatLng(currentLat,currentLng);
-        LatLng northEast = new LatLng(currentLat,currentLng);
-        LatLng southWest = new LatLng(currentLat, currentLng);
+        LatLng northEast = new LatLng(Home.currentLat,Home.currentLng);
+        LatLng southWest = new LatLng(Home.currentLat, Home.currentLng);
         LatLngBounds bounds = LatLngBounds.builder()
                 .include(northEast)
                 .include(southWest)
@@ -538,7 +540,6 @@ public class WhereTo extends android.support.v4.app.Fragment {
                             addressModel.setPlaceId(place.getPlaceId());
                             addressModel.setPrimaryText(place.getPrimaryText(null).toString());
                             addressModel.setSecondaryText(place.getSecondaryText(null).toString());
-
                             searchAddressCustomList.add(addressModel);
                         }
 
@@ -653,27 +654,30 @@ public class WhereTo extends android.support.v4.app.Fragment {
     private void workPressed() {
         isWork = true;
         isHome = false;
-        if (sHelper.getString(userWorkAddress).length() > 1) {
-            placeId = sHelper.getString(userWorkPlaceid);
-            setText2(sHelper.getString(userWorkAddress));
+        if (sHelper.getString(userWorkAddress)!=null &&sHelper.getString(userWorkAddress).length() > 1) {
+                placeId = sHelper.getString(userWorkPlaceid);
+                setText2(sHelper.getString(userWorkAddress));
 
-        } else {
-            setSearchView();
-            isSearchSelected = true;
-        }
+            } else {
+                setSearchView();
+                isSearchSelected = true;
+            }
+
     }
 
     private void homePressed() {
         isWork = false;
         isHome = true;
-        if (sHelper.getString(userHomeAddress).length() > 1) {
-            placeId = sHelper.getString(userHomePlaceid);
-            setText2(sHelper.getString(userHomeAddress));
+     
+            if (sHelper.getString(userHomeAddress)!=null && sHelper.getString(userHomeAddress).length() > 1) {
+                placeId = sHelper.getString(userHomePlaceid);
+                setText2(sHelper.getString(userHomeAddress));
 
-        } else {
-            setSearchView();
-            isSearchSelected = true;
-        }
+            } else {
+                setSearchView();
+                isSearchSelected = true;
+            }
+
     }
 
 //    @Override

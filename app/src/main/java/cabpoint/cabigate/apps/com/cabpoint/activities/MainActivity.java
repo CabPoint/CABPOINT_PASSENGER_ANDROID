@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -22,6 +23,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Places;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -37,7 +44,7 @@ import cabpoint.cabigate.apps.com.cabpoint.fragments.Home;
 import cabpoint.cabigate.apps.com.cabpoint.listeners.GPSTracker;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
     private DrawerLayout drawerLayout;
     private FragmentManager fragmentManager;
     NavigationView navigationView;
@@ -49,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
     Uri uri;
     Context context;
     Intent intent;
+    public static GoogleApiClient mGoogleApiClient;
+    private static final int GOOGLE_API_CLIENT_ID = 0;
 
 
     @Override
@@ -64,12 +73,7 @@ public class MainActivity extends AppCompatActivity {
         ivBack.setVisibility(View.GONE);
         ivMenu.setVisibility(View.VISIBLE);
         checkLocationPermission();
-
-
-
-
-
-
+        initmGoogleApiClient();
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
@@ -117,6 +121,22 @@ public class MainActivity extends AppCompatActivity {
         setHeader();
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
+
+    }
+    private void initmGoogleApiClient() {
+
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .addApi(Places.GEO_DATA_API)
+                .enableAutoManage(this, GOOGLE_API_CLIENT_ID, this)
+                .addApi(Places.PLACE_DETECTION_API)
+                .addApi(LocationServices.API)
+                .build();
 
     }
     private void showSettingsDialog() {
@@ -168,8 +188,6 @@ public class MainActivity extends AppCompatActivity {
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         // check if all permissions are granted
                         if (report.areAllPermissionsGranted()) {
-
-
                             if (checkGps())
                             {
                                 android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
@@ -214,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // set title
-        alertDialogBuilder.setTitle("Sant Maskeen ji Katha");
+        alertDialogBuilder.setTitle("CabPoint");
 
         // set dialog message
         alertDialogBuilder
@@ -235,16 +253,8 @@ public class MainActivity extends AppCompatActivity {
                         // the dialog box and do nothing
                         dialog.cancel();
                     }
-                })
-                .setNeutralButton("Rate Us",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                uri = Uri.parse("https://play.google.com/store/apps/details?id=sant.singh.ji.maskeen"); // missing 'http://' will cause crashed
-                                intent = new Intent(Intent.ACTION_VIEW, uri);
-                                startActivity(intent);
-                                //dialog.cancel();
-                            }
-                        });
+                });
+
 
 
         // create alert dialog
@@ -271,6 +281,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        if (this.mGoogleApiClient != null) {
+            this.mGoogleApiClient.connect();
+        }
         //mAdd.resume(this);
         super.onResume();
 
@@ -286,5 +299,10 @@ public class MainActivity extends AppCompatActivity {
 
         //mAdd.destroy(this);
         super.onDestroy();
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }
