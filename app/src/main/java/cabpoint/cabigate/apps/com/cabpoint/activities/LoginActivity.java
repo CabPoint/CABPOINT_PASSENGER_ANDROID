@@ -35,7 +35,7 @@ import cabpoint.cabigate.apps.com.cabpoint.utilities.HttpHandler;
 public class LoginActivity extends Activity {
     EditText etEmail, etPassword;
 
-    Button btnSignup,btnLogin,btnForgetPass;
+    Button btnSignup, btnLogin, btnForgetPass;
     ImageView ivBack;
     TextView txtdashboard;
     SharedPreferencesHelper sharedPreferences;
@@ -53,6 +53,11 @@ public class LoginActivity extends Activity {
         ivBack.setVisibility(View.GONE);
         sharedPreferences = new SharedPreferencesHelper(this);
         txtdashboard = findViewById(R.id.tv_dashboard);
+        if(sharedPreferences.getBoolean(Constants.isLogin))
+        {
+            Intent n = new Intent(this,MainActivity.class);
+            startActivity(n);
+        }
 
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,11 +76,12 @@ public class LoginActivity extends Activity {
         btnForgetPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-showResponseDialog();
+                showResponseDialog();
             }
         });
 
     }
+
     private class LoginTask extends AsyncTask<String, Void, String>
 
     {
@@ -107,34 +113,36 @@ showResponseDialog();
                 Log.e("lOGIN Url", Constants.CABPOINT_LOGIN);
                 Log.e("body", String.valueOf(bodyParams));
                 Log.e("Response", response);
-                LoginOutput logincode = new Gson().fromJson(response, LoginOutput.class);
-                if(logincode.getStatus().equals("1"))
-                {
-                    if(logincode.getResponse()!=null)
-                    {
 
-                            Helpers.displayMessage(LoginActivity.this, true, "Successfully Login");
-                        Intent main =new Intent(LoginActivity.this,MainActivity.class);
+                LoginOutput logincode = new Gson().fromJson(response, LoginOutput.class);
+                if (logincode.getStatus().equals("1")) {
+                    if (logincode.getResponse() != null) {
+                        sharedPreferences.setString(Constants.USERID, logincode.getResponse().getUserid() == null ? null : logincode.getResponse().getUserid());
+                        sharedPreferences.setString(Constants.TOKEN, logincode.getResponse().getToken() == null ? null : logincode.getResponse().getToken());
+                        sharedPreferences.putBooelan(Constants.isLogin,true);
+                        Helpers.displayMessage(LoginActivity.this, true, "Successfully Login");
+                        Intent main = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(main);
 
 
                     }
-                }
-                else
-                {
+                } else {
 
                     JSONObject json = null;
                     try {
                         json = new JSONObject(response);
+                        if (json.getString("error") != null) {
+                            String error = json.getString("error");
+                            Helpers.displayMessage(LoginActivity.this, true, error);
+                        }
                         String errorMessage = json.getString("error_msg");
                         String status = json.getString("status");
-                        if(status.equals("0")) {
+                        if (status.equals("0")) {
                             Helpers.displayMessage(LoginActivity.this, true, errorMessage);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
 
 
                 }
@@ -165,13 +173,14 @@ showResponseDialog();
     }
 
     private LoginModel requestBody() {
-      LoginModel headerRequest = new LoginModel ();
-       headerRequest.setAuth("fb");
-       headerRequest.setCompanyid(Constants.COMPANYID);
-       headerRequest.setEmail(etEmail.getText().toString());
-       headerRequest.setPassword(etPassword.getText().toString());
+        LoginModel headerRequest = new LoginModel();
+        headerRequest.setAuth("fb");
+        headerRequest.setCompanyid(Constants.COMPANYID);
+        headerRequest.setEmail(etEmail.getText().toString());
+        headerRequest.setPassword(etPassword.getText().toString());
         return headerRequest;
     }
+
     private class ForgetPasswordTask extends AsyncTask<String, Void, String>
 
     {
@@ -179,8 +188,8 @@ showResponseDialog();
         private HttpHandler httpHandler;
         ProgressDialog pDialog;
         String email = "";
-        public ForgetPasswordTask(String email)
-        {
+
+        public ForgetPasswordTask(String email) {
             this.email = email;
         }
 
@@ -208,12 +217,10 @@ showResponseDialog();
                 Log.e("Forget Url", Constants.CABPOINT_FORGET_PASSWORD);
                 Log.e("body", String.valueOf(bodyParams));
                 Log.e("Response", response);
-               ForgetOutput forget = new Gson().fromJson(response, ForgetOutput.class);
-                if(forget.getStatus().equals("1"))
-                {
-                    if(forget.getResponse()!=null)
-                    {
-                        if(forget.getResponse().getMsg()!=null) {
+                ForgetOutput forget = new Gson().fromJson(response, ForgetOutput.class);
+                if (forget.getStatus().equals("1")) {
+                    if (forget.getResponse() != null) {
+                        if (forget.getResponse().getMsg() != null) {
 
                             Helpers.displayMessage(LoginActivity.this, true, forget.getResponse().getMsg());
 
@@ -221,22 +228,19 @@ showResponseDialog();
 
 
                     }
-                }
-                else
-                {
+                } else {
 
                     JSONObject json = null;
                     try {
                         json = new JSONObject(response);
                         String errorMessage = json.getString("error_msg");
                         String status = json.getString("status");
-                        if(status.equals("0")) {
+                        if (status.equals("0")) {
                             Helpers.displayMessage(LoginActivity.this, true, errorMessage);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
 
 
                 }
@@ -267,11 +271,18 @@ showResponseDialog();
     }
 
     private ForgetPasswordModel forgetPasswordrequestBody(String email) {
-        ForgetPasswordModel headerRequest = new ForgetPasswordModel ();
-       headerRequest.setEmail(email);
-       headerRequest.setCompanyid(Constants.COMPANYID);
+        ForgetPasswordModel headerRequest = new ForgetPasswordModel();
+        headerRequest.setEmail(email);
+        headerRequest.setCompanyid(Constants.COMPANYID);
         return headerRequest;
     }
+    @Override
+    public void onBackPressed() {
+        finish();
+        moveTaskToBack(true);
+        System.exit(0);
+    }
+
     private void showResponseDialog() {
         (LoginActivity.this).runOnUiThread(new Runnable() {
             @Override
@@ -284,8 +295,8 @@ showResponseDialog();
                 final android.support.v7.app.AlertDialog alertDialog = alertDialogBuilder.create();
                 ImageView ivClose = promptsView.findViewById(R.id.iv_close);
                 TextView tvTitle = promptsView.findViewById(R.id.tv_option);
-               EditText tvBody = promptsView.findViewById(R.id.tv_body);
-               final String email = tvBody.getText().toString();
+                EditText tvBody = promptsView.findViewById(R.id.tv_body);
+                final String email = tvBody.getText().toString();
                 ivClose.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

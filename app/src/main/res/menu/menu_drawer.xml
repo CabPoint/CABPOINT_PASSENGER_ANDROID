@@ -2,11 +2,7 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/menu_go_freerides"
-        android:checkable="false"
 
-        android:title="@string/free_ride" />
     <group android:checkableBehavior="single">
 
         <item
@@ -17,33 +13,31 @@
         <item
             android:id="@+id/menu_go_payment"
             android:checked="false"
-
-
             android:title="@string/payment" />
         <item
             android:id="@+id/menu_go_history"
-            android:checkable="false"
-
+            android:checked="false"
             android:title="@string/history" />
         <item
             android:id="@+id/menu_go_promotion"
-            android:checkable="false"
-
+            android:checked="false"
             android:title="@string/promo" />
+        <item
+            android:id="@+id/menu_go_freerides"
+            android:checked="false"
+            android:title="@string/free_ride" />
         <item
             android:id="@+id/menu_go_setting"
             android:checked="false"
-
             android:title="@string/setting" />
         <item
             android:id="@+id/menu_go_contact_us"
-            android:checkable="false"
-
+            android:checked="false"
             android:title="@string/contact_us" />
 
         <item
             android:id="@+id/menu_go_logout"
-            android:checkable="false"
+            android:checked="false"
             android:title="@string/logout" />
         />
 

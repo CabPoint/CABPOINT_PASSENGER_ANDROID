@@ -101,6 +101,9 @@ public class PhoneCodeActivity extends Activity {
                        if(phonecode.getResponse().getStatus().equals("verified") )
                        {
                            Helpers.displayMessage(PhoneCodeActivity.this, true, "Successfully Verified");
+                           sharedPreferencesHelper.putBooelan(Constants.isLogin,true);
+                           Intent n = new Intent(PhoneCodeActivity.this,MainActivity.class);
+                           startActivity(n);
                        }
 
                     }

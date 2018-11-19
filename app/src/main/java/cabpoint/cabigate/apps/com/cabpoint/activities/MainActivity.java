@@ -2,14 +2,18 @@ package cabpoint.cabigate.apps.com.cabpoint.activities;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,6 +21,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -29,6 +34,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Places;
+import com.google.gson.Gson;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -37,11 +43,23 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
 
 import cabpoint.cabigate.apps.com.cabpoint.R;
+import cabpoint.cabigate.apps.com.cabpoint.database.SharedPreferencesHelper;
 import cabpoint.cabigate.apps.com.cabpoint.fragments.Home;
 import cabpoint.cabigate.apps.com.cabpoint.listeners.GPSTracker;
+import cabpoint.cabigate.apps.com.cabpoint.models.LogoutInput.LogoutInput;
+import cabpoint.cabigate.apps.com.cabpoint.models.LogoutOutput.LogoutOutput;
+import cabpoint.cabigate.apps.com.cabpoint.models.loginInput.LoginModel;
+import cabpoint.cabigate.apps.com.cabpoint.models.loginoutput.LoginOutput;
+import cabpoint.cabigate.apps.com.cabpoint.utilities.Constants;
+import cabpoint.cabigate.apps.com.cabpoint.utilities.Helpers;
+import cabpoint.cabigate.apps.com.cabpoint.utilities.HttpHandler;
 
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
@@ -53,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     MenuItem searchMenuItem;
     private FragmentManager fragment;
     private GPSTracker gps;
+    SharedPreferencesHelper sharedPreferencesHelper;
     Uri uri;
     Context context;
     Intent intent;
@@ -70,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ivBack = findViewById(R.id.toolbar_iv_back);
         ivMenu = findViewById(R.id.iv_drawer);
+        sharedPreferencesHelper = new SharedPreferencesHelper(this);
         ivBack.setVisibility(View.GONE);
         ivMenu.setVisibility(View.VISIBLE);
         checkLocationPermission();
@@ -94,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     case R.id.menu_go_contact_us:
                         return true;
                     case R.id.menu_go_logout:
+                        logout();
                         return true;
 
 
@@ -122,6 +143,113 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
 
+    }
+
+    private void logout()
+    {
+
+        new LogoutTask().execute();
+    }
+    private class LogoutTask extends AsyncTask<String, Void, String>
+
+    {
+
+        private HttpHandler httpHandler;
+        ProgressDialog pDialog;
+
+        @Override
+        protected void onPreExecute() {
+        super.onPreExecute();
+        pDialog = new ProgressDialog(MainActivity.this);
+        pDialog.setMessage(getResources().getString(R.string.loading));
+        pDialog.setIndeterminate(false);
+        pDialog.show();
+        pDialog.setCancelable(false);
+    }
+
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        @Override
+        protected String doInBackground(String... Url) {
+        String response = "";
+        try {
+            httpHandler = new HttpHandler();
+            HashMap<String, String> headerParams = new HashMap<>();
+            HashMap<String, String> bodyParams = new HashMap<>();
+            String jsonObject = new Gson().toJson(requestBody(), LogoutInput.class);
+            bodyParams.put("data", jsonObject);
+            response = httpHandler.httpPost(Constants.CABPOINT_LOGOUT, headerParams, bodyParams, null);
+            Log.e("Logout Url", Constants.CABPOINT_LOGOUT);
+            Log.e("body", String.valueOf(bodyParams));
+            Log.e("Response", response);
+            LogoutOutput logoutcode = new Gson().fromJson(response,LogoutOutput.class);
+            if(logoutcode.getStatus().equals(1))
+            {
+                if(logoutcode.getResponse()!=null)
+                {
+
+                    Helpers.displayMessage(MainActivity.this, true, logoutcode.getResponse().getMsg());
+                    sharedPreferencesHelper.clearPreferenceStore();
+                    //moveTaskToBack(true);
+                    finish();
+                    Intent main =new Intent(MainActivity.this,LoginActivity.class);
+                    startActivity(main);
+
+
+                }
+            }
+            else
+            {
+
+                JSONObject json = null;
+                try {
+                    json = new JSONObject(response);
+                    if(json.getString("error")!=null) {
+                        String error = json.getString("error");
+                        Helpers.displayMessage(MainActivity.this, true, error);
+                    }
+                    String errorMessage = json.getString("error_msg");
+                    String status = json.getString("status");
+                    if(status.equals("0")) {
+                        Helpers.displayMessage(MainActivity.this, true, errorMessage);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+
+            }
+
+
+            //  return response.toString();
+        } catch (Exception exception) {
+            if (response.equals("")) {
+                Helpers.displayMessage(MainActivity.this, true, exception.getMessage());
+                //showResponseDialog( mContext.getResources().getString(R.string.alert),exception.getMessage());
+                //pDialog.dismiss();
+            } else {
+                Helpers.displayMessage(MainActivity.this, true, exception.getMessage());
+            }
+        }
+
+        return null;
+    }
+
+        @Override
+        protected void onPostExecute(String result) {
+        pDialog.dismiss();
+
+//            parseErrorResponse(result);
+    }
+
+
+    }
+    private LogoutInput requestBody() {
+        LogoutInput headerRequest = new LogoutInput ();
+     headerRequest.setCompanySerial("2");
+     headerRequest.setUserid(Integer.valueOf(sharedPreferencesHelper.getString(Constants.USERID)));
+     headerRequest.setToken(sharedPreferencesHelper.getString(Constants.TOKEN));
+     return headerRequest;
     }
     private void initmGoogleApiClient() {
 
@@ -241,10 +369,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 .setMessage("Are you sure you want to exit?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // if this button is clicked, close
-                        // current activity
-                        System.exit(0);
+                        ActivityCompat.finishAffinity(MainActivity.this);
                         finish();
+                        moveTaskToBack(true);
+                        System.exit(0);
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -283,6 +411,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     protected void onResume() {
         if (this.mGoogleApiClient != null) {
             this.mGoogleApiClient.connect();
+        }
+        if (checkGps())
+        {
+            android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+            android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.Container, new Home());
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
         }
         //mAdd.resume(this);
         super.onResume();

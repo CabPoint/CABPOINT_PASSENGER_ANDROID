@@ -27,6 +27,7 @@ dependencies {
     })
     //noinspection GradleCompatible
     compile 'com.android.support:appcompat-v7:26.0.2'
+    compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.android.support:design:26.0.2'
     compile 'com.android.support:recyclerview-v7:26.0.2'
     compile 'io.michaelrocks:libphonenumber-android:8.8.5'

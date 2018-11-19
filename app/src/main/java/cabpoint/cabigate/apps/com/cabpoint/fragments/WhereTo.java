@@ -49,6 +49,7 @@ import cabpoint.cabigate.apps.com.cabpoint.adapters.PlaceSearchAdapter;
 import cabpoint.cabigate.apps.com.cabpoint.database.SharedPreferencesHelper;
 import cabpoint.cabigate.apps.com.cabpoint.listeners.GPSTracker;
 import cabpoint.cabigate.apps.com.cabpoint.models.AddressDao;
+import cabpoint.cabigate.apps.com.cabpoint.utilities.Constants;
 import cabpoint.cabigate.apps.com.cabpoint.utilities.Helpers;
 
 import static cabpoint.cabigate.apps.com.cabpoint.activities.MainActivity.mGoogleApiClient;
@@ -108,6 +109,12 @@ public class WhereTo extends android.support.v4.app.Fragment {
     public static String userHomeAddress = "userHomeAddress";
     public static String userWorkPlaceid = "userWorkId";
     public static String userHomePlaceid = "userHomeId";
+    public static String userFromLat = "userfromLat";
+    public static String userFromlng = "userfromLng";
+    public static String userToLat = "usertoLat";
+    public static String userToLng = "usertoLng";
+    public static String userDropAddress = "userDropAddress";
+    public static String userFromAddress = "userfromAddress";
 
     View rootView;
 
@@ -133,6 +140,8 @@ public class WhereTo extends android.support.v4.app.Fragment {
         initContent();
         loadAddress();
         countryCodeValue = Helpers.getCountryCodeFromGps(getActivity());
+        //currentLocation.setText(Bydefaultcurrent);
+        //currentLocation.removeTextChangedListener(generalTextWatcher);
         //getcountrycodefromgps();
         addHomeWorkInListView();
         setWhereToList();
@@ -344,87 +353,81 @@ public class WhereTo extends android.support.v4.app.Fragment {
         });
     }
 
-//    public void checkAdress() {
-//
-//
-//        if (searchLocation.getText().toString().trim().length() > 0) {
-//            if (currentLocation.getText().toString().trim().length() > 0) {
-//                if (fromdestinationlat <= 0) {
-//                    fromdestinationlat = fromLat2;
-//                    fromdestinationlng = fromLng2;
-//                    Log.v("From3", String.valueOf(fromdestinationlat));
-//                }
-//
-//            } else {
-//                fromdestinationlat = currentLat;
-//                fromdestinationlng = currentLng;
-//                //fromAdress = Bydefaultcurrent;
-//                Log.v("From1", String.valueOf(fromdestinationlat));
-//            }
-//
-//           /* if (todestinationlat <= 0) {
-//                todestinationlat = fromLat;
-//                todestinationlng = fromLng;
-//            }*/
-//
-//            if (currentLocation.getText().toString().trim().equals("")) {
-//                fromAdress = Bydefaultcurrent;
-//            } else {
-//                fromAdress = currentLocation.getText().toString();
-//            }
-//            dropAdress = searchLocation.getText().toString();
-//            sHelper.setFromLat(String.valueOf(fromdestinationlat));
-//            sHelper.setFromLng(String.valueOf(fromdestinationlng));
-//            sHelper.setToLat(String.valueOf(todestinationlat));
-//            sHelper.setToLng(String.valueOf(todestinationlng));
-//            sHelper.setDropAdres(dropAdress);
-//            sHelper.setFromAdres(fromAdress);
-//            Log.v("From2", String.valueOf(todestinationlat));
-//            if(regPre.getMode().equals("0") || regPre.getMode().equals("2") )
-//            {
-//                Cache.turnbyturnpopulateConfirmation = true;
-//                //Methods.singleAlert(activity, R.string.drive_modemessage);
-//                replaceFragment(R.string.m_Turn, true);
-//
-//            } else {
-//                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-//                imm.hideSoftInputFromWindow(searchLocation.getWindowToken(),
-//                        InputMethodManager.RESULT_UNCHANGED_SHOWN);
-////        sHelper.ispopulate(true);
-//                Cache.populateConfirmation = true;
-//                onBackPressedTopBar();
-//            }
-//
-//       /* if (searchLocation.getText().toString().trim().length() > 0) {
-//            if (currentLocation.getText().toString().trim().length() > 0) {
-//                if(fromdestinationlat<=0) {
-//                    fromdestinationlat = fromLat2;
-//                    fromdestinationlng = fromLng2;
-//                    Log.v("From3", String.valueOf(fromdestinationlat));
-//                }
-//            }else {
-//                fromdestinationlat = currentLat;
-//                fromdestinationlng = currentLng;
-//                Log.v("From1", String.valueOf(fromdestinationlat));
-//            }
-//            if(todestinationlat<=0)
-//            todestinationlat = fromLat;
-//            todestinationlng = fromLng;
-//            dropAdress = searchLocation.getText().toString();
-//            fromAdress = currentLocation.getText().toString();
-//            sHelper.setFromLat(String.valueOf(fromdestinationlat));
-//            sHelper.setFromLng(String.valueOf(fromdestinationlng));
-//            sHelper.setToLat(String.valueOf(todestinationlat));
-//            sHelper.setToLng(String.valueOf(todestinationlng));
-//            sHelper.setDropAdres(dropAdress);
-//            sHelper.setFromAdres(fromAdress);
-//            Log.v("From2", String.valueOf(todestinationlat));
-//            sHelper.ispopulate(true);
-//           replaceFragment(R.string.m_Home, false);
-//            //replaceFragment();
-//        }*/
-//        }
-//    }
+    public void checkAdress() {
+
+
+        if (searchLocation.getText().toString().trim().length() > 0) {
+            if (currentLocation.getText().toString().trim().length() > 0) {
+                if (fromdestinationlat <= 0) {
+                    fromdestinationlat = fromLat2;
+                    fromdestinationlng = fromLng2;
+                    Log.v("From3", String.valueOf(fromdestinationlat));
+                }
+
+            } else {
+                fromdestinationlat = currentLat;
+                fromdestinationlng = currentLng;
+                //fromAdress = Bydefaultcurrent;
+                Log.v("From1", String.valueOf(fromdestinationlat));
+            }
+
+           /* if (todestinationlat <= 0) {
+                todestinationlat = fromLat;
+                todestinationlng = fromLng;
+            }*/
+
+            if (currentLocation.getText().toString().trim().equals("")) {
+                fromAdress = Bydefaultcurrent;
+            } else {
+                fromAdress = currentLocation.getText().toString();
+            }
+            dropAdress = searchLocation.getText().toString();
+            sHelper.setString(userFromLat,String.valueOf(fromdestinationlat));
+            sHelper.setString(userFromlng,String.valueOf(fromdestinationlng));
+            sHelper.setString(userToLat,String.valueOf(todestinationlat));
+            sHelper.setString(userToLng,String.valueOf(todestinationlng));
+            sHelper.setString(userDropAddress,dropAdress);
+            sHelper.setString(userFromAddress,fromAdress);
+            Log.v("From2", String.valueOf(todestinationlat));
+
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(searchLocation.getWindowToken(),
+                        InputMethodManager.RESULT_UNCHANGED_SHOWN);
+//        sHelper.ispopulate(true);
+                Constants.populateConfirmation = true;
+                onBackPressedTopBar();
+            }
+
+       /* if (searchLocation.getText().toString().trim().length() > 0) {
+            if (currentLocation.getText().toString().trim().length() > 0) {
+                if(fromdestinationlat<=0) {
+                    fromdestinationlat = fromLat2;
+                    fromdestinationlng = fromLng2;
+                    Log.v("From3", String.valueOf(fromdestinationlat));
+                }
+            }else {
+                fromdestinationlat = currentLat;
+                fromdestinationlng = currentLng;
+                Log.v("From1", String.valueOf(fromdestinationlat));
+            }
+            if(todestinationlat<=0)
+            todestinationlat = fromLat;
+            todestinationlng = fromLng;
+            dropAdress = searchLocation.getText().toString();
+            fromAdress = currentLocation.getText().toString();
+            sHelper.setFromLat(String.valueOf(fromdestinationlat));
+            sHelper.setFromLng(String.valueOf(fromdestinationlng));
+            sHelper.setToLat(String.valueOf(todestinationlat));
+            sHelper.setToLng(String.valueOf(todestinationlng));
+            sHelper.setDropAdres(dropAdress);
+            sHelper.setFromAdres(fromAdress);
+            Log.v("From2", String.valueOf(todestinationlat));
+            sHelper.ispopulate(true);
+           replaceFragment(R.string.m_Home, false);
+            //replaceFragment();
+        }*/
+        }
+
 
     private void initializeViewFlipper() {
         where_to_container = (ViewFlipper) rootView.findViewById(R.id.whereto_container);
@@ -582,7 +585,7 @@ public class WhereTo extends android.support.v4.app.Fragment {
                             if (isSearch) {
                                 todestinationlng = addressLng;
                                 todestinationlat = addressLat;
-                               // checkAdress();
+                               checkAdress();
                                 //Log.v("gethv", String.valueOf(sHelper.getHomeLat()));
                             }
                             Log.v("Latitude is", "" + queriedLocation.latitude);
@@ -621,7 +624,7 @@ public class WhereTo extends android.support.v4.app.Fragment {
 
                                 todestinationlat = latitude;
                                 todestinationlng = longitude;
-                                //checkAdress();
+                                checkAdress();
                             }
 
 
@@ -668,7 +671,7 @@ public class WhereTo extends android.support.v4.app.Fragment {
     private void homePressed() {
         isWork = false;
         isHome = true;
-     
+
             if (sHelper.getString(userHomeAddress)!=null && sHelper.getString(userHomeAddress).length() > 1) {
                 placeId = sHelper.getString(userHomePlaceid);
                 setText2(sHelper.getString(userHomeAddress));

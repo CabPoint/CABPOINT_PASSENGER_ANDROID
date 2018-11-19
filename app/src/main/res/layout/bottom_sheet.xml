@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_sheet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/light_silver"
+    android:orientation="vertical"
+    android:padding="10dp"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="50dp"
+
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_vertical"
+        android:weightSum="1">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/p40"
+            android:layout_marginBottom="@dimen/p10"
+            android:layout_weight="1"
+            android:id="@+id/sheettest"
+            android:gravity="center"
+            android:src="@drawable/ic_keyboard_arrow_down_black_24dp"
+        />
+
+
+    </LinearLayout>
+    <View
+        android:id="@+id/SplitLine_hor1"
+        android:layout_width="match_parent"
+        android:layout_height= "2dp"
+        android:background="@color/white" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <ImageView
+            android:id="@+id/backward"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:layout_weight="2"
+            android:src="@drawable/ic_keyboard_arrow_left_black_24dp"
+            />
+
+        <ImageView
+            android:id="@+id/imgCar"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:layout_height="@dimen/p100"
+            android:layout_weight="6"
+            android:src="@drawable/car"
+            android:text="Accept"
+            android:textColor="@color/white" />
+
+        <ImageView
+            android:id="@+id/forward"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="2"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_keyboard_arrow_right_black_24dp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/carname"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+              android:hint="Saloon"
+
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            />
+
+
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+   android:layout_marginRight="@dimen/p10"
+        android:layout_marginLeft="@dimen/p10"
+        android:layout_weight="1"
+        android:background="@color/blue"
+        android:id="@+id/requestride"
+        android:foreground="?attr/selectableItemBackground"
+        android:text="Request Ride"
+        android:textColor="@color/white" />
+    <Button
+        android:layout_width="@dimen/p0"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/p10"
+        android:layout_marginLeft="@dimen/p10"
+        android:layout_weight="1"
+        android:id="@+id/bookjourney"
+
+        android:background="@color/blue"
+        android:foreground="?attr/selectableItemBackground"
+        android:text="Book Journey"
+        android:textColor="@color/white" />
+    </LinearLayout>
+
+</LinearLayout>
